@@ -1,4 +1,4 @@
-<p align="center"><a href="https://smartdesizns.com" target="_blank"><img src="http://213.136.88.137/~beingdonor/Donor.png" width="400"></a></p>
+<p align="center"><a href="https://smartdesizns.com" target="_blank"><img src="http://213.136.88.137/~beingdonor/Donor.png" width="300"></a></p>
 
 <p align="center">
 <a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
