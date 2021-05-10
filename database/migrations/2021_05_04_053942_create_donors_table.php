@@ -14,7 +14,7 @@ class CreateDonorsTable extends Migration
     public function up()
     {
         Schema::create('donors', function (Blueprint $table) {
-          $table->id();
+            $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('name')->nullable($value = true);
@@ -22,6 +22,7 @@ class CreateDonorsTable extends Migration
             $table->string('self_or_others')->nullable($value = true);         
             $table->string('relationship')->nullable($value = true);        
             $table->string('date_of_birth')->nullable($value = true);
+             $table->tinyInteger('donate_blood_or_plasma')->nullable($value = true)->default(2)->comment('1 is blood and 2 is plasma');
             $table->string('blood_group_id')->nullable($value = true);
             $table->string('covid_status')->nullable($value = true);
             $table->date('covid_postive_date')->nullable($value = true);

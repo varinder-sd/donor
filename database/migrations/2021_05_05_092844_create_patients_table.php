@@ -17,10 +17,14 @@ class CreatePatientsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->default(0);
             $table->foreign('user_id')->references('id')->on('users');
+            $table->text('patient_picture')->nullable($value = true);
+            $table->tinyInteger('require_blood_or_plasma')->nullable($value = true)->default(2)->comment('1 is blood and 2 is plasma');
+            $table->string('plasma_type')->nullable($value = true)->comment('1 is normal and 2 is covid recovered');
             $table->string('name')->nullable($value = true);
             $table->string('email')->nullable($value = true);
             $table->string('phone')->nullable($value = true);
             $table->string('date_of_birth')->nullable($value = true);
+            $table->string('gender')->nullable($value = true);
             $table->unsignedBigInteger('blood_group_id')->default(0);
             $table->foreign('blood_group_id')->references('id')->on('blood_group');
             $table->unsignedBigInteger('country_id')->default(0);

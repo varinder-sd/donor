@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 
-
+        
      ( )
    (.) (.)
      ) (
@@ -22,11 +22,37 @@ use Illuminate\Support\Facades\Route;
 	SMART DESIGNS
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('app_version', function() {
+	
+	$version = DB::table('app_version')->latest('id')->first();
+    return response()->json([
+	  'status_code' => 200,
+	  'vesrion' => $version->version,
+	]);
 });
 
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
 Route::group(['middleware' => ['auth:sanctum']], function() {
+    
+    Route::get('/user', function (Request $request) {
+        
+    $user = \App\Models\User::with('country','state','district','city')->where('id','=',$request->user()->id)->first();
+    
+    $user->avatar = 'storage/'.$user->avatar;
+    
+         return response()->json([
+    	  'status_code' => 200,
+    	  'user' => $user,
+    	]);
+    });
+    
+    
+    Route::post('users/update',[App\Http\Controllers\UserController::class, 'editUser']);
+    
+    
     Route::get('bloodgroup', function(Request $request) {
     	
     	$blood = \App\Models\Blood::All();
@@ -38,7 +64,17 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     
     Route::post('store-donor', [App\Http\Controllers\DonorController::class, 'store']);
     
+    Route::post('store-patient', [App\Http\Controllers\PatientController::class, 'store']);
+    
+    Route::post('editPatient', [App\Http\Controllers\PatientController::class, 'editPatient']);
+    
     Route::get('donors', [App\Http\Controllers\DonorController::class, 'list']);
+    
+    Route::post('donors-search', [App\Http\Controllers\DonorController::class, 'search']);
+    
+    Route::post('donor_status', [App\Http\Controllers\DonorController::class, 'donor_status']);
+    
+    Route::get('patients', [App\Http\Controllers\PatientController::class, 'list']);
 });
 
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
@@ -64,8 +100,26 @@ Route::get('states', function(Request $request) {
 });
 
 Route::get('cities', function(Request $request) {
-		$id = $request->input('id');
-	$cities = \App\Models\Cities::where('state_id', '=', $id)->get(['id','name']);
+    
+	$id = $request->input('id');
+		
+	$dis = $request->input('district_id');
+	
+    if(empty($id) && empty($id)){
+	    $cities = \App\Models\Cities::where('country_id', '=', 101)->get(['id','name']);
+	    
+	   return response()->json([
+    	  'status_code' => 200,
+    	  'cities' => $cities,
+    	]);
+	}
+		
+	$cities = \App\Models\Cities::where('district_id', '=', $dis)->get(['id','name']);
+	
+	if($cities->isEmpty()){
+	    $cities = \App\Models\Cities::where('state_id', '=', $id)->get(['id','name']);
+	}
+	
     return response()->json([
 	  'status_code' => 200,
 	  'cities' => $cities,
@@ -77,6 +131,37 @@ Route::get('cities', function(Request $request) {
 Route::get('district', function(Request $request) {
 	
 	//$geocode="http://api.nightlights.io/months/2010.3-2010.4/states/$nam/districts";
+/*	
+	$geocode="http://api.nightlights.io/months/2010.3-2010.4/states/jammu-&-kashmir/districts";
+
+ $c = curl_init();
+    curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($c, CURLOPT_URL, $geocode);
+    $contents = curl_exec($c);
+    curl_close($c);
+
+
+        $output= json_decode($contents);
+
+ foreach($output as $district){
+
+echo $n = str_replace('jammu-&-kashmir-','',$district->key);
+
+echo "<br>";
+	$shopOwner = DB::table('districts')->where([
+    ['name',$n], ['state_id',4029],
+])->get();
+print_r($shopOwner);
+if ($shopOwner->isEmpty()) {
+   DB::table('districts')->insert(array('name'=> $n,'state_id'=>4029)); 
+} 
+ }
+	
+	
+die;	
+*/	
+	
+	
 	$id = $request->input('id');
 	$district = DB::table('districts')->where([
          ['state_id',$id],

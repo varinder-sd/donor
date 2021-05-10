@@ -28,8 +28,8 @@ class AuthController extends Controller
 				'message' => 'The provided credentials are incorrect.'
 			  ]);
 			}
-			$user = User::where('email', $request->email)->first();
-			
+			$user = User::where('email', $request->email)->with('country')->first();
+			$user->avatar = "storage/".$user->avatar;
 			if ( ! Hash::check($request->password, $user->password, [])) {
 			   throw new \Exception('Wrong Password');
 			}

@@ -14,4 +14,9 @@ class Blood extends Model
     {
         return $this->hasMany('App\Models\Donor');
     }
+    
+    public function patient()
+    {
+        return $this->hasMany('App\Models\Donor');
+    }
 }

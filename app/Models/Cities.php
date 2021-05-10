@@ -13,4 +13,9 @@ class Cities extends Model
     {
         return $this->hasMany('App\Models\Donor');
     }
+    
+    public function user()
+    {
+        return $this->belongsTo(User::class,'city','id');
+    }
 }

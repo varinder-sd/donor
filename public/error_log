@@ -14,3 +14,7 @@
 [05-May-2021 08:50:45 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 1052672 bytes) in /home/beingdonor/public_html/vendor/symfony/mime/FileinfoMimeTypeGuesser.php on line 60
 [05-May-2021 08:53:43 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 23072768 bytes) in /home/beingdonor/public_html/app/Http/Controllers/DonorController.php on line 132
 [05-May-2021 08:53:43 UTC] PHP Fatal error:  Allowed memory size of 33554432 bytes exhausted (tried to allocate 1052672 bytes) in /home/beingdonor/public_html/vendor/symfony/mime/FileinfoMimeTypeGuesser.php on line 60
+[08-May-2021 10:29:50 UTC] PHP Fatal error:  Cannot use App\Bulk as Bulk because the name is already in use in /home/beingdonor/public_html/app/Imports/BulkImport.php on line 6
+[10-May-2021 07:42:38 UTC] PHP Fatal error:  Cannot redeclare App\Models\User::state() in /home/beingdonor/public_html/app/Models/User.php on line 62
+[10-May-2021 07:43:36 UTC] PHP Fatal error:  Cannot redeclare App\Models\User::state() in /home/beingdonor/public_html/app/Models/User.php on line 62
+[10-May-2021 11:22:27 UTC] PHP Fatal error:  Method Illuminate\View\View::__toString() must not throw an exception, caught Facade\Ignition\Exceptions\ViewException: Undefined variable: elements (View: /home/beingdonor/public_html/vendor/laravel/framework/src/Illuminate/Pagination/resources/views/bootstrap-4.blade.php) in /home/beingdonor/public_html/storage/framework/views/1d28ccb15cf158d09c54c674bef0f64325002130.php on line 0
