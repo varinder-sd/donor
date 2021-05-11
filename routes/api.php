@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 	SMART DESIGNS
 */
 
+
 Route::get('app_version', function() {
 	
 	$version = DB::table('app_version')->latest('id')->first();
@@ -62,6 +63,21 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     	]);
     });
     
+    Route::get('comments', function(Request $request) {
+    	
+    	$comment = DB::table('argument')->where([
+         ['status',1],
+        ])->get();
+        
+        return response()->json([
+    	  'status_code' => 200,
+    	  'comment' => $comment,
+    	]);
+    });
+    
+    
+    Route::post('store-doctor', [App\Http\Controllers\DoctorController::class, 'store']);
+    
     Route::post('store-donor', [App\Http\Controllers\DonorController::class, 'store']);
     
     Route::post('store-patient', [App\Http\Controllers\PatientController::class, 'store']);
@@ -77,8 +93,12 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('patients', [App\Http\Controllers\PatientController::class, 'list']);
 });
 
+
+
 Route::post('/login', 'App\Http\Controllers\AuthController@login');
 Route::post('/signup', 'App\Http\Controllers\AuthController@register');
+
+Route::post('/verify_user', 'App\Http\Controllers\AuthController@verify_user');
 
 Route::get('countries', function() {
 	
@@ -132,7 +152,7 @@ Route::get('district', function(Request $request) {
 	
 	//$geocode="http://api.nightlights.io/months/2010.3-2010.4/states/$nam/districts";
 /*	
-	$geocode="http://api.nightlights.io/months/2010.3-2010.4/states/jammu-&-kashmir/districts";
+	$geocode="http://api.nightlights.io/months/2010.3-2010.4/states/uttar-pradesh/districts";
 
  $c = curl_init();
     curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
@@ -145,21 +165,21 @@ Route::get('district', function(Request $request) {
 
  foreach($output as $district){
 
-echo $n = str_replace('jammu-&-kashmir-','',$district->key);
+echo $n = str_replace('uttar-pradesh-','',$district->key);
 
 echo "<br>";
 	$shopOwner = DB::table('districts')->where([
-    ['name',$n], ['state_id',4029],
+    ['name',$n], ['state_id',4022],
 ])->get();
 print_r($shopOwner);
 if ($shopOwner->isEmpty()) {
-   DB::table('districts')->insert(array('name'=> $n,'state_id'=>4029)); 
+   DB::table('districts')->insert(array('name'=> $n,'state_id'=>4022)); 
 } 
  }
 	
 	
 die;	
-*/	
+	*/
 	
 	
 	$id = $request->input('id');

@@ -21,6 +21,7 @@ class AddExtraFieldToUsersTable extends Migration
             $table->string('district')->after('state');
             $table->string('city')->after('district');
             $table->string('gender')->after('city');
+            $table->string('status')->after('gender')->default(1);
         });
     }
 

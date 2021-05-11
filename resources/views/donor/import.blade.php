@@ -39,7 +39,7 @@
                 <div class="panel panel-bordered">
                     <div class="panel-body">
 									
-		<form action="{{ route('import') }}" method="post"  enctype="multipart/form-data">
+		<form action="{{ route('imports') }}" method="post"  enctype="multipart/form-data">
                 @csrf
          
                 <div class="form-group">

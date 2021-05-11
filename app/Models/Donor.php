@@ -14,7 +14,7 @@ class Donor extends Model
     
     public function user()
     {
-        return $this->belongsTo('App\Models\User')->select(array('id','name', 'email'));
+        return $this->belongsTo('App\Models\User')->select(array('id','name', 'email','status'));
     }
     
     public function blood()

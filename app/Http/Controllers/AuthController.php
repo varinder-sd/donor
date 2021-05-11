@@ -118,6 +118,30 @@ class AuthController extends Controller
 			  'message' => 'Token Deleted successfuly!',
 			
 		]);
-		
 	}
+	
+	
+	public function verify_user(Request $request){
+	
+	    $rules = [
+			'email'    => 'unique:users|required',
+			'phone' => 'unique:users|required',
+		];
+
+		$input     = $request->only('email','phone');
+		$validator = Validator::make($input, $rules);
+
+		if ($validator->fails()) {
+			return response()->json(['status_code' => 500,'success' => false, 'error' => $validator->messages()]);
+		}
+	
+	
+		return response()->json([
+			  'status_code' => 200,
+			  'message' => 'verified successfuly!',
+			
+		]);
+	}
+	
+	
 }

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use DB;
 
 use App\Imports\BulkImport;
+use App\Imports\BulkImprt;
 use Maatwebsite\Excel\Facades\Excel;
 class DonorController extends Controller
 {
@@ -334,6 +335,13 @@ class DonorController extends Controller
         return  redirect()->route('admin.donor');
     }
     
+    public function imports() 
+    {
+        Excel::import(new BulkImprt,request()->file('file'));
+           
+        return  redirect()->route('admin.donor');
+    }
+    
     
     public function importView() 
     {
@@ -353,6 +361,25 @@ class DonorController extends Controller
         $donor->save();
            
        return 1;
+    }
+    
+    
+    public function edituserStatus($id, Request $request){
+    
+            // DB::enableQueryLog();
+   /// print_r($request->all()); die($id);
+        $all = Donor::with(['user','blood','country','state','district', 'city'])->where('user_id','=',$id)
+        ->paginate(100);
+    
+    //return  $query = DB::getQueryLog();
+        if($all->isEmpty()){
+            return response()->json([
+        	  'status_code' => 500,
+        	  'message' => "No donor you have yet!",
+        	]);
+        }else{
+             return view('donor.userDonor',compact('all'));
+        }
     }
     
 //end class;

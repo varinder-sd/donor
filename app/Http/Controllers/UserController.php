@@ -53,7 +53,7 @@ class UserController extends Controller
                   return response()->json($validator->errors());
                 }
                 
-                if(!empty($users->avatar)){
+                if(!empty($users->avatar) && $users->avatar != 'users/default.png'){
                   
                    unlink(public_path('storage/'.$users->avatar));
                  

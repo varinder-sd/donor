@@ -35,9 +35,15 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('exceldonor', [App\Http\Controllers\BulkController::class, 'Alist'])->name('admin.importeddonor');
     
     Route::get('export-donor', [App\Http\Controllers\PDFController::class, 'export'])->name('admin.donor.export');
-   Route::post('ajax/request/status', array('as' => 'ajax.request.status', 'uses' => 'App\Http\Controllers\DonorController@change_status'));
+    Route::post('ajax/request/status', array('as' => 'ajax.request.status', 'uses' => 'App\Http\Controllers\DonorController@change_status'));
    
    
     Route::get('importdonor', 'App\Http\Controllers\DonorController@importView')->name('admin.import');
     Route::post('import', 'App\Http\Controllers\DonorController@import')->name('import');
+    
+     Route::post('imports', 'App\Http\Controllers\DonorController@imports')->name('imports');
+    
+    
+    
+    Route::get('user/{id}/donors', 'App\Http\Controllers\DonorController@edituserStatus')->name('admin.statususerddonor');
 });

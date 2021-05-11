@@ -65,23 +65,28 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+.voyager .statusU.active{
+    background-color: #4caf50;
+    border-color : #4caf50;
+}
+.voyager .statusU{
+    background-color: red;
+    border-color :red;
+}
     </style>
 @stop
 
 @section('content')
 	<div class="container-fluid">
         <h1 class="page-title">
-            <i class="voyager-droplet" style="color: red;"></i> Donors
+            <i class="voyager-droplet" style="color: red;"></i><strong>{{ $all[0]->user->name }}</strong> Donors List
         </h1>
-		<a href="" class="btn btn-success btn-add-new">
-		<i class="voyager-plus"></i> <span>Add New</span>
-		</a>
-		<a class="btn btn-danger" id="bulk_delete_btn"><i class="voyager-trash"></i> <span>Bulk Delete</span></a>
 		
+	
 		<a class="btn btn-info" id="bulk_export_btn" href="{{ route('admin.donor.export' )}}"><i class="voyager-cloud-download"></i> <span>Export Donors</span></a>
-		<a class="btn btn-info" id="bulk_import_btn" href="{{ route('admin.import' )}}"><i class="voyager-upload"></i> <span>Import Donors</span></a>
+
 			
-		<a class="btn btn-info" id="bulk_export_btn" href="{{ route('admin.importeddonor' )}}"><i class="voyager-droplet"></i> <span>Imported Donors</span></a>
+		<a class="btn btn-info statusU @if($all[0]->user->status) active @endif" id="bulk_export_btn" data-id="{{ $all[0]->user->id }}" data-status="{{ $all[0]->user->status }}" href="javascript:void(0);"><i class="voyager-droplet"></i> <span>Change  status </span></a>
 
 
 <!-- /.modal -->
@@ -298,6 +303,38 @@ jQuery(document).ready(function($){
 				Swal.fire({
 				  title: 'Success',
 				  text: 'Donor status changed Successfully!!!',
+				  icon: 'success',
+				});
+			}else{
+				Swal.fire({
+				  title: 'Error!',
+				  text: 'SomeThing went wrong!!!',
+				  icon: 'error',
+				  confirmButtonText: 'Try Again Later'
+				});
+			}
+        }
+    });
+});
+
+	$('.statusU').on('click', function(e) {
+		
+
+		var id = $(this).data('id');
+		var status = $(this).data('status');
+	//	return false;
+    $.ajax({
+        method: 'POST',
+        url: "{{ route('ajax.request.status')}}",
+        data: {
+            status: status,id:id,action:'userIdstatus'
+        },
+        dataType: 'json',
+        success: function(res){
+            if(res == 1){
+				Swal.fire({
+				  title: 'Success',
+				  text: 'User status changed Successfully!!!',
 				  icon: 'success',
 				});
 			}else{
